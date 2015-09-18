@@ -1,0 +1,10 @@
+station_id,stationname,date,daytype,rides
+40010,Austin-Forest Park,01/01/2001,U,290
+40020,Harlem-Lake,01/01/2001,U,633
+40030,Pulaski-Lake,01/01/2001,U,483
+40040,Quincy/Wells,01/01/2001,U,374
+40050,Davis,01/01/2001,U,804
+40060,Belmont-O'Hare,01/01/2001,U,1165
+40070,Jackson/Dearborn,01/01/2001,U,649
+40080,Sheridan,01/01/2001,U,1116
+40090,Damen-Brown,01/01/2001,U,411
