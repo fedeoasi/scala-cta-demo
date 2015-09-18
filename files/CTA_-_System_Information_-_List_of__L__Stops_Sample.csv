@@ -1,0 +1,10 @@
+STOP_ID,DIRECTION_ID,STOP_NAME,STATION_NAME,STATION_DESCRIPTIVE_NAME,MAP_ID,ADA,RED,BLUE,G,BRN,P,Pexp,Y,Pnk,O,Location
+30161,E,18th (Loop-bound),18th,18th (Pink Line),40830,true,false,false,false,false,false,false,false,true,false,"(41.857908, -87.669147)"
+30162,W,18th (54th/Cermak-bound),18th,18th (Pink Line),40830,true,false,false,false,false,false,false,false,true,false,"(41.857908, -87.669147)"
+30022,N,35th/Archer (Loop-bound),35th/Archer,35th/Archer (Orange Line),40120,true,false,false,false,false,false,false,false,false,true,"(41.829353, -87.680622)"
+30023,S,35th/Archer (Midway-bound),35th/Archer,35th/Archer (Orange Line),40120,true,false,false,false,false,false,false,false,false,true,"(41.829353, -87.680622)"
+30213,N,35-Bronzeville-IIT (Harlem-bound),35th-Bronzeville-IIT,35th-Bronzeville-IIT (Green Line),41120,true,false,false,true,false,false,false,false,false,false,"(41.831677, -87.625826)"
+30214,S,35-Bronzeville-IIT (63rd-bound),35th-Bronzeville-IIT,35th-Bronzeville-IIT (Green Line),41120,true,false,false,true,false,false,false,false,false,false,"(41.831677, -87.625826)"
+30245,N,43rd (Harlem-bound),43rd,43rd (Green Line),41270,true,false,false,true,false,false,false,false,false,false,"(41.816462, -87.619021)"
+30246,S,43rd (63rd-bound),43rd,43rd (Green Line),41270,true,false,false,true,false,false,false,false,false,false,"(41.816462, -87.619021)"
+30210,S,47th (63rd-bound),47th,47th (Green Line),41080,true,false,false,true,false,false,false,false,false,false,"(41.809209, -87.618826)"
