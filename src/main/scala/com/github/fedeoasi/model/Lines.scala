@@ -1,6 +1,6 @@
 package com.github.fedeoasi.model
 
-sealed trait Line
+sealed trait  Line
 
 object Lines {
   case object RedLine extends Line

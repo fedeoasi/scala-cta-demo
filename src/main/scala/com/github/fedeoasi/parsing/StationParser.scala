@@ -9,9 +9,10 @@ class StationParser {
     val reader = CSVReader.open(filename)
     reader.allWithHeaders().map { row =>
       val stopId = row("STOP_ID").toInt
+      val mapId = row("MAP_ID").toInt
       val direction = row("DIRECTION_ID")
       val lines = extractLines(row)
-      Station(stopId, direction, row("STOP_NAME"), lines)
+      Station(stopId, mapId, direction, row("STOP_NAME"), lines)
     }
   }
 

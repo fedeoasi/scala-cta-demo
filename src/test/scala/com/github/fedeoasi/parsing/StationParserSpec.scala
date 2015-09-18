@@ -11,8 +11,8 @@ class StationParserSpec extends FunSpec with Matchers {
       val parser = new StationParser
       val stations = parser.parse(TestConstants.ctaLStationsSampleFile)
       stations.size shouldBe 9
-      stations.head shouldBe Station(30161, "E", "18th (Loop-bound)", Seq(PinkLine))
-      stations.last shouldBe Station(30210, "S", "47th (63rd-bound)", Seq(GreenLine))
+      stations.head shouldBe Station(30161, 40830, "E", "18th (Loop-bound)", Seq(PinkLine))
+      stations.last shouldBe Station(30210, 41080,  "S", "47th (63rd-bound)", Seq(GreenLine))
     }
   }
 }
