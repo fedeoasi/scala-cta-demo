@@ -11,7 +11,7 @@ class DailyRidesParser {
     reader.allWithHeaders().map { row =>
       val stationId = row("station_id").toInt
       val date = LocalDate.parse(row("date"), dateFormatter)
-      val rides = row("rides").toInt
+      val rides = row("rides").toLong
       DailyRideCount(StationReference(stationId, row("stationname")), date, row("daytype"), rides)
     }
   }
