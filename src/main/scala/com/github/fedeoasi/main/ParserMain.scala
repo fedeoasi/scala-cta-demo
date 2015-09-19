@@ -26,20 +26,20 @@ object ParserMain {
     val distinctStations = dailyRideCounts.map(_.station).toSet
     println(distinctStations.size)
 
-    println("Computing Top dailyRideCount...")
+    println("Computing Top Station Day...")
     val maxRides = dailyRideCounts.max(orderingByRides)
     println(maxRides)
 
-    println(s"Computing Top $K dailyRideCount...")
+    println(s"Computing Top $K Station Days...")
     val busiestStationDay = dailyRideCounts.sortBy(_.rides).reverse.take(K)
     println(busiestStationDay)
 
-    println(s"Computing Top $K busiest days")
+    println(s"Computing Top $K Busiest Days")
     val ridesByDay = dailyRideCounts.groupBy(_.date)
     val days = rankGroupedRideCounts(ridesByDay)
     prettyPrint(days, s"Busiest Days")
 
-    println(s"Computing Top $K busiest Years")
+    println(s"Computing Top $K Busiest Years")
     val ridesByYear = dailyRideCounts.groupBy(_.date.getYear)
     val years = rankGroupedRideCounts(ridesByYear)
     prettyPrint(years, s"Busiest Years")
