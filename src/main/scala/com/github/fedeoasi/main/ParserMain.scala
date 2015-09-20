@@ -3,15 +3,16 @@ package com.github.fedeoasi.main
 import java.text.NumberFormat
 
 import com.github.fedeoasi.Constants._
-import com.github.fedeoasi.model.{HasRides, Station, DailyRideCount}
-import com.github.fedeoasi.parsing.{StationParser, DailyRidesParser}
 import com.github.fedeoasi.model.Aggregates._
+import com.github.fedeoasi.model.{DailyRideCount, Station}
+import com.github.fedeoasi.parsing.{DailyRidesParser, StationParser}
+import com.github.fedeoasi.ranking.RideRanker._
 import org.joda.time.LocalDate
-import Console._
+
+import scala.Console._
 
 object ParserMain {
   val orderingByRides = Ordering.by[DailyRideCount, Long](_.rides)
-  val K = 10
   val stationParser = new StationParser
   val RidesParser = new DailyRidesParser
   val now = LocalDate.now
@@ -83,17 +84,6 @@ object ParserMain {
     prettyPrint(busiestLines, s"Busiest Stations")
   }
 
-  def rankGroupedRideCounts[T](groupedRideCounts: Map[T, Seq[HasRides]],
-                               k: Int = K): Seq[ScoredResult[_]] = {
-    val topK = groupedRideCounts.mapValues { dailyRidesSeq =>
-      dailyRidesSeq.map(_.rides).sum
-    }.toSeq.sortBy(_._2).reverse.take(K)
-    val result = topK.map { r =>
-      ScoredResult(r._1, r._2)
-    }
-    result
-  }
-
   def computeRidesAndStations(stations: Seq[Station], rideCounts: Seq[DailyRideCount]): Seq[StationAndRides] = {
     val stationsById = stations.groupBy(_.mapId)
     val ridesAndStations = rideCounts.flatMap { rideCount =>
@@ -113,8 +103,6 @@ object ParserMain {
       println(s"$highlight${NumberFormat.getInstance().format(r.score)}\t${r.value}$RESET")
     }
   }
-
-  case class ScoredResult[T](value: T, score: Long)
 
   private def printSeparator(): Unit = {
     println("-----------------------------------------------")
