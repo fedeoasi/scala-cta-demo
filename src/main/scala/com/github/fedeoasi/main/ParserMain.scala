@@ -102,7 +102,8 @@ object ParserMain {
     printSeparator()
     results.zipWithIndex.foreach { case (r, i) =>
       val highlight = if (i < colors.size) colors(i) else ""
-      println(s"$highlight${NumberFormat.getInstance().format(r.score)}\t${r.value}$RESET")
+      val formattedScore = NumberFormat.getInstance().format(r.score)
+      println(s"$highlight$formattedScore\t${r.value}$RESET")
     }
   }
 
