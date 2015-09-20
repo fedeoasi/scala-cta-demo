@@ -6,14 +6,18 @@ import com.github.fedeoasi.Constants._
 import com.github.fedeoasi.model.{HasRides, Station, DailyRideCount}
 import com.github.fedeoasi.parsing.{StationParser, DailyRidesParser}
 import com.github.fedeoasi.model.Aggregates._
+import org.joda.time.LocalDate
+import Console._
 
 object ParserMain {
   val orderingByRides = Ordering.by[DailyRideCount, Long](_.rides)
   val K = 10
   val stationParser = new StationParser
   val RidesParser = new DailyRidesParser
+  val now = LocalDate.now
 
   def main(args: Array[String]) {
+    printSeparator()
     println("Parsing stations file...")
     val stations = stationParser.parse(ctaLStationsFile)
     println(s"Found ${stations.size} stations")
@@ -22,17 +26,30 @@ object ParserMain {
     val dailyRideCounts = RidesParser.parse(ctaDailyRidesFile)
     println(s"Found ${dailyRideCounts.size} daily ride entries")
 
-    println("Computing Distinct Stations...")
+    printSeparator()
+    println("All Time Statistics")
+    computeStatistics(stations, dailyRideCounts)
+
+    printSeparator()
+    println("Current Year Statistics")
+    computeStatistics(stations, dailyRideCounts.filter(_.date.getYear == now.getYear))
+  }
+
+  def computeStatistics(stations: Seq[Station], dailyRideCounts: Seq[DailyRideCount]): Unit = {
+    println(s"Computing Distinct Stations...")
     val distinctStations = dailyRideCounts.map(_.station).toSet
     println(distinctStations.size)
 
-    println("Computing Top Station Day...")
-    val maxRides = dailyRideCounts.max(orderingByRides)
+    println("Computing Top Number of Rides in one day...")
+    val maxRides = dailyRideCounts.map(_.rides).max
     println(maxRides)
 
     println(s"Computing Top $K Station Days...")
-    val busiestStationDay = dailyRideCounts.sortBy(_.rides).reverse.take(K)
-    println(busiestStationDay)
+    val busiestStationDays = dailyRideCounts.sortBy(_.rides).reverse.take(K)
+    val scoredStationDays = busiestStationDays.map { dailyRideCount =>
+      ScoredResult(dailyRideCount, dailyRideCount.rides)
+    }
+    prettyPrint(scoredStationDays, "Station Days")
 
     println(s"Computing Top $K Busiest Days")
     val ridesByDay = dailyRideCounts.groupBy(_.date)
@@ -49,6 +66,11 @@ object ParserMain {
     val busiestStations = rankGroupedRideCounts(ridesByStation)
     prettyPrint(busiestStations, s"Busiest Stations")
 
+    println(s"Computing Top $K Busiest day types")
+    val ridesByDayType = dailyRideCounts.groupBy(_.dayType)
+    val busiestDayTypes = rankGroupedRideCounts(ridesByDayType)
+    prettyPrint(busiestDayTypes, s"Busiest Day Type")
+
     println(s"Computing Top $K Train Lines")
     val ridesAndStations = computeRidesAndStations(stations, dailyRideCounts)
     val lineAndRidesSeq = ridesAndStations.flatMap { ridesAndStation =>
@@ -60,7 +82,7 @@ object ParserMain {
     val busiestLines = rankGroupedRideCounts(byLine)
     prettyPrint(busiestLines, s"Busiest Stations")
   }
-  
+
   def rankGroupedRideCounts[T](groupedRideCounts: Map[T, Seq[HasRides]],
                                k: Int = K): Seq[ScoredResult[_]] = {
     val topK = groupedRideCounts.mapValues { dailyRidesSeq =>
@@ -84,11 +106,17 @@ object ParserMain {
   }
 
   def prettyPrint(results: Seq[ScoredResult[_]], title: String): Unit = {
+    val colors = Seq(GREEN, YELLOW, RED)
     println(s"Results for $title")
-    results.foreach { r =>
-      println(s"${NumberFormat.getInstance().format(r.score)}\t${r.value}")
+    results.zipWithIndex.foreach { case (r, i) =>
+      val highlight = if (i < colors.size) colors(i) else ""
+      println(s"$highlight${NumberFormat.getInstance().format(r.score)}\t${r.value}$RESET")
     }
   }
 
   case class ScoredResult[T](value: T, score: Long)
+
+  private def printSeparator(): Unit = {
+    println("-----------------------------------------------")
+  }
 }
