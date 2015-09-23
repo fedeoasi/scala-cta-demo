@@ -4,7 +4,7 @@ import java.text.NumberFormat
 
 import com.github.fedeoasi.Constants._
 import com.github.fedeoasi.model.Aggregates._
-import com.github.fedeoasi.model.{DailyRideCount, Station}
+import com.github.fedeoasi.model._
 import com.github.fedeoasi.parsing.{DailyRidesParser, StationParser}
 import com.github.fedeoasi.ranking.RideRanker._
 import org.joda.time.LocalDate

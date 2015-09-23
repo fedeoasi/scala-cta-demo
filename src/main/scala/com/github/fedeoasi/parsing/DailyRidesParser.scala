@@ -1,6 +1,6 @@
 package com.github.fedeoasi.parsing
 
-import com.github.fedeoasi.model.{StationReference, DailyRideCount}
+import com.github.fedeoasi.model.{DayType, StationReference, DailyRideCount}
 import com.github.tototoshi.csv.CSVReader
 import org.joda.time.LocalDate
 import ParsingUtil._
@@ -12,7 +12,8 @@ class DailyRidesParser {
       val stationId = row("station_id").toInt
       val date = LocalDate.parse(row("date"), dateFormatter)
       val rides = row("rides").toLong
-      DailyRideCount(StationReference(stationId, row("stationname")), date, row("daytype"), rides)
+      val dayType = DayType(row("daytype"))
+      DailyRideCount(StationReference(stationId, row("stationname")), date, dayType, rides)
     }
   }
 }

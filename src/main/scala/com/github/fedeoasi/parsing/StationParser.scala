@@ -1,7 +1,7 @@
 package com.github.fedeoasi.parsing
 
 import com.github.fedeoasi.model.Lines._
-import com.github.fedeoasi.model.{Line, Station}
+import com.github.fedeoasi.model._
 import com.github.tototoshi.csv.CSVReader
 
 class StationParser {
