@@ -8,16 +8,13 @@ The data used is by the Chicago Transit Authority (CTA) and is part of their fre
 
 ## Getting Started
 
-This project is based [Typesafe Activator](https://www.typesafe.com/activator), which is an
-[SBT](http://www.scala-sbt.org/) based tool. Activator simplifies the installation of SBT and
-scala and provides a script that allows you to get started very quickly.
-
-When you run Activator you are actually running SBT, which gives an interactive SBT shell
+This project is based on [SBT](http://www.scala-sbt.org/) based tool. 
+When installed in your system it gives an interactive shell
 where you can run different commands.
 
 First, run activator in a shell from a checkout of this project:
 
-    ./activator
+    sbt
 
 You should see something similar to:
 
@@ -55,5 +52,5 @@ On a fresh checkout, the `files` folder contains two sample versions of those fi
 The core of the application is to compute a bunch of statistics and aggregate information on the datasets.
 So far, the results are going to be printed out to the console.
 
-    ./activator
+    sbt
     > runMain com.github.fedeoasi.main.ParserMain
