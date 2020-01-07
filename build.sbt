@@ -1,9 +1,9 @@
 name := """scala-cta-demo"""
 
-version := "1.0"
+version := "1.0-SNAPSHOT"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.12.10"
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "2.2.4" % "test",
-  "com.github.tototoshi" %% "scala-csv" % "1.2.2")
+  "org.scalatest" %% "scalatest" % "3.1.0" % "test",
+  "com.github.tototoshi" %% "scala-csv" % "1.3.6")
