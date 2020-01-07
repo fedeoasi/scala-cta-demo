@@ -4,7 +4,7 @@ import com.github.fedeoasi.model.Lines._
 import com.github.fedeoasi.model._
 import com.github.tototoshi.csv.CSVReader
 
-class StationParser {
+object StationParser {
   def parse(filename: String): Seq[Station] = {
     val reader = CSVReader.open(filename)
     reader.allWithHeaders().map { row =>
@@ -16,8 +16,8 @@ class StationParser {
     }
   }
 
-  def extractLines(row: Map[String, String]): Seq[Line] = {
-    val optionalLines = Seq(
+  private def extractLines(row: Map[String, String]): Seq[Line] = {
+    Seq(
       optionalLine(row, "RED", RedLine),
       optionalLine(row, "BLUE", BlueLine),
       optionalLine(row, "G", GreenLine),
@@ -27,11 +27,10 @@ class StationParser {
       optionalLine(row, "Y", YellowLine),
       optionalLine(row, "Pnk", PinkLine),
       optionalLine(row, "O", OrangeLine)
-    )
-    optionalLines.filter(_.isDefined).map(_.get)
+    ).flatten
   }
 
-  def optionalLine(row: Map[String, String], key: String, line: Line): Option[Line] = {
+  private def optionalLine(row: Map[String, String], key: String, line: Line): Option[Line] = {
     if (row(key) == "true") Some(line) else None
   }
 }

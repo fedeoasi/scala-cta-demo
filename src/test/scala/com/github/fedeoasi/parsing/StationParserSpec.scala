@@ -8,11 +8,10 @@ import com.github.fedeoasi.model.Lines._
 class StationParserSpec extends FunSpec with Matchers {
   describe("StationParser") {
     it("parses a list of stations") {
-      val parser = new StationParser
-      val stations = parser.parse(TestConstants.ctaLStationsSampleFile)
+      val stations = StationParser.parse(TestConstants.ctaLStationsSampleFile)
       stations.size shouldBe 9
       stations.head shouldBe Station(30161, 40830, "E", "18th (Loop-bound)", Seq(PinkLine))
-      stations.last shouldBe Station(30210, 41080,  "S", "47th (63rd-bound)", Seq(GreenLine))
+      stations.last shouldBe Station(30210, 41080, "S", "47th (63rd-bound)", Seq(GreenLine))
     }
   }
 }

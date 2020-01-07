@@ -1,6 +1,6 @@
 package com.github.fedeoasi.model
 
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 trait HasRides {
   def rides: Long
@@ -38,4 +38,11 @@ object DayType {
     case "U" => SundayOrHoliday
     case _ => throw new IllegalArgumentException(s"Unrecognized dayType $dayType")
   }
+}
+
+case class StationAndRides(station: Station, dailyRideCount: DailyRideCount) extends HasRides {
+  override def rides: Long = dailyRideCount.rides
+}
+case class LineAndRides(line: Line, dailyRideCount: DailyRideCount) extends HasRides {
+  override def rides: Long = dailyRideCount.rides
 }
