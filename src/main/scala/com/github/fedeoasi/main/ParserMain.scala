@@ -12,7 +12,7 @@ import java.time.LocalDate
 import scala.Console._
 
 object ParserMain {
-  val now = LocalDate.now
+  private val now = LocalDate.now
 
   def main(args: Array[String]) {
     printSeparator()
@@ -48,41 +48,32 @@ object ParserMain {
     val k = RideRanker.K
 
     println(s"Computing Top $k Station Days...")
-    val busiestStationDays = dailyRideCounts.sortBy(_.rides).reverse.take(K)
-    val scoredStationDays = busiestStationDays.map { dailyRideCount =>
-      ScoredResult(dailyRideCount, dailyRideCount.rides)
-    }
-    prettyPrint(scoredStationDays, "Station Days")
+    prettyPrint(rankRideCounts(dailyRideCounts, k)(by = identity), "Station Days")
 
-    println(s"Computing Top $k Busiest Days...")
-    val ridesByDay = dailyRideCounts.groupBy(_.date)
-    val days = rankGroupedRideCounts(ridesByDay, k)
+    println(s"Computing $k Busiest Days...")
+    val days = rankRideCounts(dailyRideCounts, k)(by = _.date)
     prettyPrint(days, s"Busiest Days")
 
-    println(s"Computing Top $k Busiest Years...")
-    val ridesByYear = dailyRideCounts.groupBy(_.date.getYear)
-    val years = rankGroupedRideCounts(ridesByYear, k)
+    println(s"Computing $k Busiest Years...")
+    val years = rankRideCounts(dailyRideCounts, k)(by = _.date.getYear)
     prettyPrint(years, s"Busiest Years")
 
-    println(s"Computing Top $k Busiest stations of all time...")
-    val ridesByStation = dailyRideCounts.groupBy(_.station)
-    val busiestStations = rankGroupedRideCounts(ridesByStation, k)
+    println(s"Computing $k Busiest stations of all time...")
+    val busiestStations = rankRideCounts(dailyRideCounts, k)(by = _.station)
     prettyPrint(busiestStations, s"Busiest Stations")
 
-    println(s"Computing Top $k Busiest day types...")
-    val ridesByDayType = dailyRideCounts.groupBy(_.dayType)
-    val busiestDayTypes = rankGroupedRideCounts(ridesByDayType, k)
+    println(s"Computing $k Busiest day types...")
+    val busiestDayTypes = rankRideCounts(dailyRideCounts, k)(by = _.dayType)
     prettyPrint(busiestDayTypes, s"Busiest Day Type")
 
-    println(s"Computing Top $k Train Lines...")
+    println(s"Computing $k Busiest Train Lines...")
     val ridesAndStations = computeRidesAndStations(stations, dailyRideCounts)
     val lineAndRidesSeq = ridesAndStations.flatMap { ridesAndStation =>
       ridesAndStation.station.lines.map { line =>
         LineAndRides(line, ridesAndStation.dailyRideCount)
       }
     }
-    val byLine = lineAndRidesSeq.groupBy(_.line)
-    val busiestLines = rankGroupedRideCounts(byLine, k)
+    val busiestLines = rankRideCounts(lineAndRidesSeq, k)(by = _.line)
     prettyPrint(busiestLines, s"Busiest Stations")
   }
 

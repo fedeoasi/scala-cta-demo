@@ -3,7 +3,7 @@ package com.github.fedeoasi.parsing
 import com.github.fedeoasi.TestConstants
 import com.github.fedeoasi.model.Station
 import org.scalatest.{FunSpec, Matchers}
-import com.github.fedeoasi.model.Lines._
+import com.github.fedeoasi.model.Line._
 
 class StationParserSpec extends FunSpec with Matchers {
   describe("StationParser") {

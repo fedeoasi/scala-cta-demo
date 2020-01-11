@@ -7,11 +7,8 @@ object RideRanker {
 
   case class ScoredResult[T](value: T, score: Long)
 
-  def rankGroupedRideCounts[T](
-    groupedRideCounts: Map[T, Seq[HasRides]],
-    k: Int = K): Seq[ScoredResult[T]] = {
-
-    val groupedTotals = groupedRideCounts.mapValues { dailyRidesSeq =>
+  def rankRideCounts[T <: HasRides, U](rideData: Seq[T], k: Int = K)(by: T => U): Seq[ScoredResult[U]] = {
+    val groupedTotals = rideData.groupBy(by).mapValues { dailyRidesSeq =>
       dailyRidesSeq.map(_.rides).sum
     }
     val topK = groupedTotals
@@ -20,10 +17,8 @@ object RideRanker {
       .reverse
       .take(K)
 
-    val result = topK.map { case (value, score) =>
+    topK.map { case (value, score) =>
       ScoredResult(value, score)
     }
-    result
   }
-
 }

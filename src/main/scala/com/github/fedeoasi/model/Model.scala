@@ -14,7 +14,7 @@ case class Station(stopId: Int, mapId: Int, direction: String, stopName: String,
 
 sealed trait Line
 
-object Lines {
+object Line {
   case object RedLine extends Line
   case object BlueLine extends Line
   case object GreenLine extends Line
