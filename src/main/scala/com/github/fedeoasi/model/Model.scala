@@ -8,6 +8,13 @@ trait HasRides {
 
 case class DailyRideCount(station: StationReference, date: LocalDate, dayType: DayType, rides: Long) extends HasRides
 
+case class StationAndRides(station: Station, dailyRideCount: DailyRideCount) extends HasRides {
+  override def rides: Long = dailyRideCount.rides
+}
+case class LineAndRides(line: Line, dailyRideCount: DailyRideCount) extends HasRides {
+  override def rides: Long = dailyRideCount.rides
+}
+
 case class StationReference(stationId: Int, stationName: String)
 
 case class Station(stopId: Int, mapId: Int, direction: String, stopName: String, lines: Seq[Line])
@@ -38,11 +45,4 @@ object DayType {
     case "U" => SundayOrHoliday
     case _ => throw new IllegalArgumentException(s"Unrecognized dayType $dayType")
   }
-}
-
-case class StationAndRides(station: Station, dailyRideCount: DailyRideCount) extends HasRides {
-  override def rides: Long = dailyRideCount.rides
-}
-case class LineAndRides(line: Line, dailyRideCount: DailyRideCount) extends HasRides {
-  override def rides: Long = dailyRideCount.rides
 }
